@@ -1,0 +1,49 @@
+<div class="bar">
+  <div class="ample" [ngStyle]="{'background-color':authenticated?'green': 'red'}"></div>
+
+  <div *ngIf="authenticated" style="width: 80%">
+    <div class="token">
+      <label for="token">Access Token</label>
+      <div id="token">
+        {{ accessToken }}
+      </div>
+    </div>
+    <div class="token">
+      <label for="decoded">Decoded Access Token</label>
+      <div>
+        <textarea id="decoded" disabled>
+            {{ decodedToken }}
+        </textarea>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="login()" *ngIf="!authenticated">login</button>
+  <button (click)="logout()" *ngIf="authenticated">logout</button>
+
+</div>
+<div>
+  <h2>
+
+    Test services:
+  </h2>
+  <div>
+    <button (click)="callService('/api/books')">Call Public</button>
+    <button (click)="callService('/api/books/count')">Call Protected</button>
+    <div *ngIf="responseTxt.length > 0">
+      Response:
+      <div>
+        {{ responseTxt }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="error" *ngIf="errorTxt">
+  Error:
+  <div>
+    {{ errorTxt }}
+  </div>
+</div>
+
+<router-outlet/>
