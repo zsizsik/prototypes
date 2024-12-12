@@ -38,7 +38,6 @@
   "bruteForceProtected" : false,
   "permanentLockout" : false,
   "maxTemporaryLockouts" : 0,
-  "bruteForceStrategy" : "MULTIPLE",
   "maxFailureWaitSeconds" : 900,
   "minimumQuickLoginWaitSeconds" : 60,
   "waitIncrementSeconds" : 60,
@@ -708,40 +707,7 @@
       }
     } ],
     "defaultClientScopes" : [ "web-origins", "acr", "roles", "profile", "basic", "email" ],
-    "optionalClientScopes" : [ "address", "phone", "offline_access", "organization", "microprofile-jwt" ],
-    "authorizationSettings" : {
-      "allowRemoteResourceManagement" : true,
-      "policyEnforcementMode" : "ENFORCING",
-      "resources" : [ {
-        "name" : "Default Resource",
-        "type" : "urn:refit-server:resources:default",
-        "ownerManagedAccess" : false,
-        "attributes" : { },
-        "uris" : [ "/*" ]
-      } ],
-      "policies" : [ {
-        "name" : "Default Policy",
-        "description" : "A policy that grants access only for users within this realm",
-        "type" : "js",
-        "logic" : "POSITIVE",
-        "decisionStrategy" : "AFFIRMATIVE",
-        "config" : {
-          "code" : "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
-        }
-      }, {
-        "name" : "Default Permission",
-        "description" : "A permission that applies to the default resource type",
-        "type" : "resource",
-        "logic" : "POSITIVE",
-        "decisionStrategy" : "UNANIMOUS",
-        "config" : {
-          "defaultResourceType" : "urn:refit-server:resources:default",
-          "applyPolicies" : "[\"Default Policy\"]"
-        }
-      } ],
-      "scopes" : [ ],
-      "decisionStrategy" : "UNANIMOUS"
-    }
+    "optionalClientScopes" : [ "address", "phone", "offline_access", "organization", "microprofile-jwt" ]
   }, {
     "id" : "9337fabf-419f-4eea-ba9a-7a86e0f3d1c7",
     "clientId" : "refit-web",
