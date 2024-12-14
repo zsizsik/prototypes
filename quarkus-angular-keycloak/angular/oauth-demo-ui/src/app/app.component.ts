@@ -3,12 +3,13 @@ import {RouterOutlet} from '@angular/router';
 import {OidcSecurityService} from 'angular-auth-oidc-client';
 import {CommonModule} from '@angular/common';
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {catchError} from 'rxjs';
+import {catchError, take} from 'rxjs';
 import {jwtDecode} from 'jwt-decode';
+import {MatAccordion, MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, MatExpansionModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -35,8 +36,6 @@ export class AppComponent implements OnInit {
       console.log('app authenticated 1', isAuthenticated)
     );
 
-    // this.authService.isAuthenticated().subscribe(isit => console.log('isit', isit));
-
     this.authService.isAuthenticated$.subscribe(({isAuthenticated}) => {
       this.authenticated = isAuthenticated;
       console.log('app authenticated 2', isAuthenticated);
@@ -61,18 +60,25 @@ export class AppComponent implements OnInit {
   callService(url: string) {
     this.errorTxt = '';
     this.responseTxt = '';
-    this.http.get<any[]>(
+    this.http.get(
       'http://localhost:8080' + url,
       {
+        responseType: 'text',
         headers: {
-          'Content-Type': 'application/json; charset=utf-8',
           'Authorization': 'Bearer ' + this.accessToken
         }
       }
-    ).subscribe({
-      next: data => this.responseTxt = JSON.stringify(data),
-      error: (error: HttpErrorResponse) => this.errorTxt = error.message,
-    });
+    )
+      .pipe(catchError((err, caught) => {
+        if (err instanceof HttpErrorResponse && err.status === 0) {
+          throw {...err, message: err.message + ' (Most likely the host cannot be reached.)'};
+        }
+        return caught
+      }))
+      .subscribe({
+        next: data => this.responseTxt = data,
+        error: (error: HttpErrorResponse) => this.errorTxt = error.message,
+      });
   }
 
 }
