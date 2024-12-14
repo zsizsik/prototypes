@@ -1,3 +1,13 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  background-color: darkgray;
+  width: 100%;
+  padding: 10px;
+}
 
 .ample {
   width: 100px;
@@ -22,11 +32,28 @@
   word-wrap: anywhere;
 }
 
+.token-container {
+  width: 80%;
+  div {
+    padding: 5px;
+  }
+}
+
+@mixin http-message-container {
+  padding: 3px;
+  background-color: lightgray;
+}
+
+.message {
+  @include http-message-container;
+}
+
 .error {
+  @include http-message-container;
   color: red;
 }
 
 textarea {
-  width: 95%;
+  width: 99%;
   height: 500px;
 }
