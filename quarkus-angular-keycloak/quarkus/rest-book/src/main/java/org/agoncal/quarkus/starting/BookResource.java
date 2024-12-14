@@ -26,7 +26,7 @@ public class BookResource {
 
     @GET
     @Path("/protected/admin")
-    @RolesAllowed("ADMIN")
+    @RolesAllowed("web-edit")
     public String adminEndpoint() {
         return "This endpoint is only available for authenticated users having admin role.";
     }
